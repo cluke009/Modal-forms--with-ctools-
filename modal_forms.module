@@ -92,9 +92,9 @@ function modal_forms_form_alter(&$form, &$form_state, $form_id) {
           // Add standard links.
           if (variable_get('modal_forms_login_links', 0) == 1) {
             if (variable_get('user_register', 1)) {
-              $items[] = ctools_modal_text_button(t('Create new account'), 'modal_forms/nojs/register', t('Create a new user account'), 'ctools-modal-modal-popup-medium');
+              $items[] = l(t('Create new account'), 'user/register', array('attributes' => array('title' => t('Create a new user account.'))));
             }
-            $items[] = ctools_modal_text_button(t('Request new password'), 'modal_forms/nojs/password', t('Request new password via e-mail.'), 'ctools-modal-modal-popup-small');
+            $items[] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.'))));
           }
           // Add links that opens in a modal_forms.
           if (variable_get('modal_forms_login_links', 0) == 2) {

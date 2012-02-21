@@ -81,15 +81,30 @@ function modal_forms_menu() {
 function modal_forms_form_alter(&$form, &$form_state, $form_id) {
 
   switch ($form_id) {
-    case 'user_login_block':
-      // Add links that opens in a modal_forms.
-      if (variable_get('modal_forms_login_links', 0) == 2) {
-        $items = array();
-        if (variable_get('user_register', 1)) {
-          $items[] = ctools_modal_text_button(t('Create new account'), 'modal_forms/nojs/register', t('Create a new user account'), 'ctools-modal-modal-popup-medium');
+    case 'user_login':
+      if (arg(0) == 'modal_forms') {
+        $form['name']['#size'] = 25;
+        $form['pass']['#size'] = 25;
+
+        // Add links as needed.
+        if (variable_get('modal_forms_login_links', 0)) {
+          $items = array();
+          // Add standard links.
+          if (variable_get('modal_forms_login_links', 0) == 1) {
+            if (variable_get('user_register', 1)) {
+              $items[] = ctools_modal_text_button(t('Create new account'), 'modal_forms/nojs/register', t('Create a new user account'), 'ctools-modal-modal-popup-medium');
+            }
+            $items[] = ctools_modal_text_button(t('Request new password'), 'modal_forms/nojs/password', t('Request new password via e-mail.'), 'ctools-modal-modal-popup-small');
+          }
+          // Add links that opens in a modal_forms.
+          if (variable_get('modal_forms_login_links', 0) == 2) {
+            if (variable_get('user_register', 2)) {
+              $items[] = ctools_modal_text_button(t('Create new account'), 'modal_forms/nojs/register', t('Create a new user account'), 'ctools-modal-modal-popup-medium');
+            }
+            $items[] = ctools_modal_text_button(t('Request new password'), 'modal_forms/nojs/password', t('Request new password via e-mail.'), 'ctools-modal-modal-popup-small');
+          }
+          $form['links'] = array('#value' => theme('item_list', $items));
         }
-        $items[] = ctools_modal_text_button(t('Request new password'), 'modal_forms/nojs/password', t('Request new password via e-mail.'), 'ctools-modal-modal-popup-small');
-        $form['links'] = array('#value' => theme('item_list', $items));
       }
       break;
     case 'user_register':
